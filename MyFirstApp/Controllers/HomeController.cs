@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MyFirstApp.Areas.Admin.Controllers;
+using MyFirstApp.Areas.Admin.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -6,11 +8,11 @@ using System.Web.Mvc;
 
 namespace MyFirstApp.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         public ActionResult Index()
         {
-            return View();
+            
         }
 
         public ActionResult About()
@@ -25,6 +27,19 @@ namespace MyFirstApp.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public ActionResult List()
+        {
+            var res = userData.GetUserSummaries();
+
+            if (res.HasError)
+            {
+                ViewData["errorMessage"] = res.ErrorMessage;
+                return View();
+            }
+
+            return View(res);
         }
     }
 }
